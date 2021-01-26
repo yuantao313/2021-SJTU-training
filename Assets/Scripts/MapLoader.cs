@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
+using UnityEditor;
 using Random = UnityEngine.Random;
+
 /**
  * testdata
  * 
@@ -13,41 +15,79 @@ public class MapLoader : MonoBehaviour
     public Tilemap ObstructionMap;
     public Tile BaseTile;
     private int[,] map;
-    
+
+    private int mapWidth;
+
+    private int mapHeight;
+
     // Start is called before the first frame update
     void Start()
     {
-        int[] a ={1,2,3};
-        map = new int[5, 5]{
-            { 0,0,1,0,0
-            },{ 0,1,0,1,0
-            },{ 1,0,1,0,1
-            },{ 0,1,0,1,0 
-            },{ 0,0,1,0,0
-            }}; 
-        
-        for (int i = 0; i < 5; i++)
-        {//这里就是设置每个Tile的信息了
-            for (int j = 0; j < 5; j++)
+        int[] a = {1, 2, 3};
+        map = new int[5, 5]
+        {
             {
-                if(map[i,j]==1){
-                ObstructionMap.SetTile(new Vector3Int(i, j, 0), BaseTile);
-            }}
-        }
+                0, 0, 1, 0, 0
+            },
+            {
+                0, 1, 0, 1, 0
+            },
+            {
+                1, 0, 1, 0, 1
+            },
+            {
+                0, 1, 0, 1, 0
+            },
+            {
+                0, 0, 1, 0, 0
+            }
+        };
+
+        drawMatrix(0,0,5,5,map);
+        drawLine(0,7,7,7);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
-}
 
-class a
-{
-    private int x;
-    private int y;
-    private int[,,] frames;
-    
+    public void drawMatrix(int x, int y, int w, int h, int[,] tileMatrix)
+    {
+        for (int i = 0; i < w; i++)
+        {
+            for (int j = 0; j < h; j++)
+            {
+                if (tileMatrix[i, j] == 1)
+                {
+                    this.ObstructionMap.SetTile(new Vector3Int(x + i, y + j, 0), BaseTile);
+                }
+            }
+        }
+    }
 
+    private void drawLine(int xi, int yi, int xj, int yj)
+    {
+        /**
+         * xi yi 起点坐标
+         * xj yj 终点坐标
+         */
+        if (xi == xj)
+        {
+            //Horizontal
+            for (int i = yi; i < yj; i++)
+            {
+                this.ObstructionMap.SetTile(new Vector3Int(xi, i, 0), BaseTile);
+            }
+        }
+        else if (yi == yj)
+        {
+            //Vertical
+            for (int i = xi; i < xj; i++)
+            {
+                this.ObstructionMap.SetTile(new Vector3Int(i, yi, 0), BaseTile);
+            }
+        }
+    }
 }

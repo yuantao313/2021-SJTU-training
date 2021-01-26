@@ -57,12 +57,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\GameMainController.cs" />
     <Compile Include="Assets\Scripts\MainCameraController.cs" />
+    <Compile Include="Assets\Scripts\MapController\NewBehaviourScript.cs" />
+    <Compile Include="Assets\Scripts\MapController\ObstructionMapController.cs" />
+    <Compile Include="Assets\Scripts\MapController\Teleportation.cs" />
     <Compile Include="Assets\Scripts\MapLoader.cs" />
     <Compile Include="Assets\Scripts\PlayerController\ColliderController.cs" />
     <Compile Include="Assets\Scripts\PlayerController\MainController.cs" />
+    <Compile Include="Assets\Scripts\Property.cs" />
     <Compile Include="Assets\Scripts\RhythmBarBlockController.cs" />
-    <Compile Include="Assets\Scripts\Timer.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
