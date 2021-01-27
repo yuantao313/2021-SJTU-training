@@ -7,6 +7,7 @@ TagManager:
   - Obstruction
   - Ground
   - Recovery
+  - Teleportation
   layers:
   - Default
   - TransparentFX

@@ -16,7 +16,7 @@ public class MainController : MonoBehaviour
     private float timer;
     private int health;
     public Slider healthBar;
-
+    private int maxHealth=100; 
     public Text performance;
     public Text pointText;
     
@@ -38,13 +38,13 @@ public class MainController : MonoBehaviour
     void Start()
     {
         restTimer = 0;
-        health = 20;
+        this.health = this.maxHealth;
         this.point = 0;
         this.pointText.text = "Point:0";
         this.lastPos = new Vector2(4, 0);
         this.position = new Vector2(4, 0);
         this.moveSound = GetComponent<AudioSource>();
-        this.healthBar.maxValue = this.health;
+        this.healthBar.maxValue = (float)this.maxHealth;
     }
 
     // Update is called once per frame
@@ -55,19 +55,19 @@ public class MainController : MonoBehaviour
             //通过检测
             restTimer += Time.deltaTime;
 
-            if (Input.GetKeyDown(KeyCode.W) && this.UpCollider.GetComponent<ColliderController>().getStatus())
+            if (Input.GetKeyDown(KeyCode.W))
             {
                 this.position.y += 1;
             }
-            else if (Input.GetKeyDown(KeyCode.S) && this.DownCollider.GetComponent<ColliderController>().getStatus())
+            else if (Input.GetKeyDown(KeyCode.S)&& this.position.y>0)
             {
                 this.position.y -= 1;
             }
-            else if (Input.GetKeyDown(KeyCode.A) && this.LeftCollider.GetComponent<ColliderController>().getStatus())
+            else if (Input.GetKeyDown(KeyCode.A) &&this.position.x>0)
             {
                 this.position.x -= 1;
             }
-            else if (Input.GetKeyDown(KeyCode.D) && this.RightCollider.GetComponent<ColliderController>().getStatus())
+            else if (Input.GetKeyDown(KeyCode.D) &&this.position.x<8)
             {
                 this.position.x += 1;
             }
@@ -109,12 +109,8 @@ public class MainController : MonoBehaviour
                 this.position.y += 1;
                 transform.Translate(Vector2.up*moveLength);
             }*/
-
-            if (this.health > 20)
-            {
-                this.health = 20; //防止hp溢出
-            }
-            else if (this.health <= 0)
+            
+            if (this.health <= 0)
             {
                 this.camera.GetComponent<GameMainController>().Running = false;
             }
@@ -130,9 +126,9 @@ public class MainController : MonoBehaviour
 
     public void cure(int recovery)
     {
-        if (this.health + recovery > 20)
+        if (this.health + recovery > this.maxHealth)
         {
-            this.health = 20;
+            this.health = this.maxHealth;
         }
         else
         {
@@ -140,12 +136,16 @@ public class MainController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider c)
+    private void hurt(int damage)
+    {
+        this.cure((-1) * damage);
+    }
+    private void OnTriggerEnter2D(Collider2D c)
     {
         //当人物触碰障碍时
         if (c.CompareTag("Obstruction"))
         {//障碍
-            
+            this.hurt(1);
         }else if (c.CompareTag("Recovery"))
         {//回复
             c.gameObject.SetActive(false);

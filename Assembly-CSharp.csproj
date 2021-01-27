@@ -63,7 +63,6 @@
     <Compile Include="Assets\Scripts\MapController\ObstructionMapController.cs" />
     <Compile Include="Assets\Scripts\MapController\Teleportation.cs" />
     <Compile Include="Assets\Scripts\MapLoader.cs" />
-    <Compile Include="Assets\Scripts\PlayerController\ColliderController.cs" />
     <Compile Include="Assets\Scripts\PlayerController\MainController.cs" />
     <Compile Include="Assets\Scripts\Property.cs" />
     <Compile Include="Assets\Scripts\RhythmBarBlockController.cs" />

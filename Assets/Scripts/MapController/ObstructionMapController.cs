@@ -16,10 +16,6 @@ public class ObstructionMapController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector2 playerPosition = player.GetComponent<MainController>().position;
-        if (this.matrix[player.position.x, player.position.y] == 1)
-        {//玩家碰到障碍，出现伤害
-            player.cure(-1);
-        }
+        
     }
 }
