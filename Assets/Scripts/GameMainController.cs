@@ -7,29 +7,42 @@ using UnityEngine.UI;
 public class GameMainController : MonoBehaviour
 {
     // Start is called before the first frame update
-    private DateTime time;
     private bool running;
-    public Text gameOverText;
-    public bool Running
+    private String status;
+    public int timer;
+    public double T;
+    public string Status
     {
-        get => running;
-        set => running = value;
+        get => status;
+        set => status = value;
     }
+
     void Start()
     {
-        time=DateTime.Now;
-        this.running = true;
-        this.gameOverText.gameObject.SetActive(false);
+        this.status = "running";
+        this.timer = -1;
+        StartCoroutine(counter());
     }
 
     // Update is called once per frame
     void Update()
     {
-        TimeSpan oTime = DateTime.Now.Subtract(this.time);
-        if (!running)//若因外界条件被告知游戏结束
+        if (this.status!="running") //若因外界条件被告知游戏结束
         {
-            this.gameOverText.gameObject.SetActive(true);
+            StopAllCoroutines();
         }
     }
-    
+
+    public IEnumerator counter()
+    {
+        while (true)
+        {
+            if (this.status == "running")
+            {
+                this.timer++;
+                yield return new WaitForSeconds(1);
+            }
+        }
+    }
+
 }

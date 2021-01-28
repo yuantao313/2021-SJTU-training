@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - Recovery
   - Teleportation
+  - AnimationTip
   layers:
   - Default
   - TransparentFX
@@ -42,6 +43,21 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: HiddenBlock
+    uniqueID: 3539985153
+    locked: 0
+  - name: UI
+    uniqueID: 822150431
+    locked: 0
+  - name: BaseBlock
+    uniqueID: 3691363805
+    locked: 0
+  - name: GroundBlock
+    uniqueID: 1618875955
+    locked: 0
+  - name: SkyBlock
+    uniqueID: 1983232341
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
