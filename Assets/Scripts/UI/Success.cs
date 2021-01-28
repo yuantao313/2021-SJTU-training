@@ -1,11 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 public class Success : MonoBehaviour
 {
-    public void backtostart()
+    private void Update()
     {
-        SceneManager.LoadScene(0);
+        if (Input.anyKeyDown)
+        {
+            SceneManager.LoadScene(0);
+        }
+
     }
 }

@@ -16,7 +16,6 @@ using UnityEngine.Assertions.Must;
 
 public class MapLoader : MonoBehaviour
 {
-    public Tilemap ObstructionMap;
     public Tilemap TeleportationMap;
     public Tilemap GroundMap;
     public Tilemap SkyMap;
@@ -34,7 +33,8 @@ public class MapLoader : MonoBehaviour
     {//之后改为从json加载
         this.map = new Map(
             );
-        String m = "{\"width\": 9,\"height\": 12,\"groundblock\": [[1,0,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0,0],[1,0,1,0,0,0,0,0,0],[0,1,0,1,0,0,0,0,0], [0,0,1,0,1,0,0,0,0],[0,0,0,1,0,1,0,0,0],[0,0,0,0,1,0,1,0,0],[0,0,0,0,0,1,0,1,0],[0,0,0,0,0,0,1,0,1],[0,0,0,0,0,0,0,1,0]],\"animation\": [{\"appearTime\": 1,\"frame\": [[[1,0,0],[0,1,0],[0,0,1]],[ [0,1,0],[0,0,1],[1,0,0]],[ [0,0,1],[1,0,0],[0,1,0]]]}] }";
+        String m =
+            "{\"width\":9,\"height\":20,\"groundblock\": [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0],[1,0,1,1,0,0,0,1,0], [1,0,0,1,0,0,0,1,1],[1,0,0,1,0,1,0,1,1],[0,0,1,0,0,1,0,0,1],[0,0,1,0,0,1,0,0,0],[0,0,1,0,1,0,0,1,0],[1,0,0,0,1,0,0,1,0],[1,1,0,0,1,0,0,1,0],[1,1,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0,0],[0,0,0,1,0,0,1,0,0],[0,0,0,1,0,0,1,0,0],[0,0,0,1,0,0,1,0,0]], \"animation\":[{\"startPos\": [0,0],\"appearTime\": 5,\"frame\": [[[0,0,0],[0,1,0],[0,0,0]],[[0,1,0],[1,0,1],[0,1,0]], [[1,1,1],[1,0,1],[1,1,1]]]},{\"startPos\": [4,7],\"appearTime\": 4,\"frame\": [[[0,0,0],[0,1,0],[0,0,0]],[[0,1,0],[1,0,1],[0,1,0]], [[1,1,1],[1,0,1],[1,1,1]]]},{\"startPos\": [7,0],\"appearTime\": 8,\"frame\": [[[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0]],[[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,1,0,1,0,0,0],[0,0,0,0,1,0,0,0,0]],[[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,1,0,0,0,1,0,0],[0,0,0,1,0,1,0,0,0],[0,0,0,0,1,0,0,0,0]],[[0,0,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,1,0],[0,0,1,0,0,0,1,0,0],[0,0,0,1,0,1,0,0,0],[0,0,0,0,1,0,0,0,0]],[[1,0,0,0,0,0,0,0,1],[0,1,0,0,0,0,0,1,0],[0,0,1,0,0,0,1,0,0],[0,0,0,1,0,1,0,0,0],[0,0,0,0,1,0,0,0,0]]]}]}";
         map = JsonConvert.DeserializeObject<Map>(m);
         this.DynamicTiles = new Tile[2] {this.ObstructionTile, this.RecoveryTile};
     }
@@ -46,18 +46,18 @@ public class MapLoader : MonoBehaviour
 
     public void drawDynamicMap()
     {
-        drawVariableMatrix(0, 0, this.map.width, this.map.height, this.map.GroundBlock, this.ObstructionMap,
+        drawVariableMatrix(0, 0, this.map.width, this.map.height, this.map.GroundBlock, this.GroundMap,
             this.DynamicTiles);
     }
 
     public void drawStaticMap(List<List<int>> matrix)
     {
-        drawMatrix(0,0,9,12,matrix,SkyMap,ObstructionTile);
+        drawMatrix(0,0,9,5,matrix,SkyMap,ObstructionTile);
     }
 
     public void clearDynamicMap()
     {
-        ObstructionMap.ClearAllTiles();
+        GroundMap.ClearAllTiles();
     }
     public void clearStaticMap()
     {
@@ -84,32 +84,8 @@ public class MapLoader : MonoBehaviour
             {
                 if (matrix[j][i] >=1)//障碍物
                 {
-                    //print(i.ToString()+','+j.ToString());
                     target.SetTile(new Vector3Int(x + i, y + j, 0), source[matrix[j][i]-1]);
                 }
-            }
-        }
-    }
-    private void drawLine(int xi, int yi, int xj, int yj)
-    {
-        /**
-         * xi yi 起点坐标
-         * xj yj 终点坐标
-         */
-        if (xi == xj)
-        {
-            //Horizontal
-            for (int i = yi; i < yj; i++)
-            {
-                this.ObstructionMap.SetTile(new Vector3Int(xi, i, 0), ObstructionTile);
-            }
-        }
-        else if (yi == yj)
-        {
-            //Vertical
-            for (int i = xi; i < xj; i++)
-            {
-                this.ObstructionMap.SetTile(new Vector3Int(i, yi, 0), ObstructionTile);
             }
         }
     }
@@ -141,7 +117,7 @@ namespace MyGame
     {//动画类
         public int appearTime;
         public List<List<List<int>>> frame;//每一帧图象
-
+        public List<int> startPos;
         public Animation()
         {
 

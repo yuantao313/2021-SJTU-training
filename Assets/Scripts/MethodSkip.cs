@@ -12,9 +12,7 @@ public class MethodSkip : MonoBehaviour
     void Start()
     {
         myImage.sprite = Resources.Load("direction2.png", typeof(Sprite)) as Sprite;
-
     }
-
     public void OnLoginButtonClick()
     {
         

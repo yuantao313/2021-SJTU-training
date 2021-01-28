@@ -64,12 +64,24 @@
     <Compile Include="Assets\Scripts\Map\MapLoader.cs" />
     <Compile Include="Assets\Scripts\Map\StaticMapController.cs" />
     <Compile Include="Assets\Scripts\Map\Teleportation.cs" />
+    <Compile Include="Assets\Scripts\MethodSkip.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Property.cs" />
+    <Compile Include="Assets\Scripts\ReturnButton.cs" />
     <Compile Include="Assets\Scripts\RhythmBar\RhythmBarArrowController.cs" />
     <Compile Include="Assets\Scripts\RhythmBar\RhythmBarBlockController.cs" />
     <Compile Include="Assets\Scripts\Story\StoryController.cs" />
+    <Compile Include="Assets\Scripts\UI\Fail.cs" />
     <Compile Include="Assets\Scripts\UI\HealthBarController.cs" />
+    <Compile Include="Assets\Scripts\UI\M12M2.cs" />
+    <Compile Include="Assets\Scripts\UI\M22M3.cs" />
+    <Compile Include="Assets\Scripts\UI\M32Main.cs" />
+    <Compile Include="Assets\Scripts\UI\MouseOver.cs" />
+    <Compile Include="Assets\Scripts\UI\Next2Main.cs" />
+    <Compile Include="Assets\Scripts\UI\Start2Next.cs" />
+    <Compile Include="Assets\Scripts\UI\Success.cs" />
+    <Compile Include="Assets\Scripts\UI\SwitchBetweenMethod.cs" />
+    <Compile Include="Assets\Scripts\Word\TypewriterEffect.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
@@ -310,6 +322,9 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.31f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:/Users/Yuan/Desktop/Game/Assets/Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>C:/Users/Yuan/Desktop/Game/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
@@ -318,9 +333,6 @@
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
       <HintPath>C:/Users/Yuan/Desktop/Game/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>C:/Users/Yuan/Desktop/Game/Assets/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.31f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

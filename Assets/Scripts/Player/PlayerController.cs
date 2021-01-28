@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class PlayerController : MonoBehaviour
@@ -31,7 +32,7 @@ public class PlayerController : MonoBehaviour
     public GameObject rhythmBarArrow;
     public int Health => health;
     private bool isProtected;
-
+    private bool damageLock;
     public bool IsProtected
     {
         get => isProtected;
@@ -64,20 +65,40 @@ public class PlayerController : MonoBehaviour
                 this.position.y += 1;
                 this.rhythmBarArrow.GetComponent<RhythmBarArrowController>().rotate(0);
             }
-            else if (Input.GetKeyDown(KeyCode.S)&& this.position.y>0)
+            else if (Input.GetKeyDown(KeyCode.S))
             {
-                this.position.y -= 1;
-                this.rhythmBarArrow.GetComponent<RhythmBarArrowController>().rotate(2);
+                if(this.position.y>0){
+                    this.position.y -= 1;
+                    this.rhythmBarArrow.GetComponent<RhythmBarArrowController>().rotate(2);
+                }
+                else
+                {
+                    this.hurt(1);
+                }
+                
             }
-            else if (Input.GetKeyDown(KeyCode.A) &&this.position.x>0)
+            else if (Input.GetKeyDown(KeyCode.A) )
             {
-                this.position.x -= 1;
-                this.rhythmBarArrow.GetComponent<RhythmBarArrowController>().rotate(1);
+                if(this.position.x>0){
+                    this.position.x -= 1;
+                    this.rhythmBarArrow.GetComponent<RhythmBarArrowController>().rotate(1);
+                    
+                }
+                else
+                {
+                    this.hurt(1);
+                }
+                
             }
-            else if (Input.GetKeyDown(KeyCode.D) &&this.position.x<8)
-            {
-                this.position.x += 1;
-                this.rhythmBarArrow.GetComponent<RhythmBarArrowController>().rotate(-1);
+            else if (Input.GetKeyDown(KeyCode.D) ) {
+                if(this.position.x<8){
+                    this.position.x += 1;
+                    this.rhythmBarArrow.GetComponent<RhythmBarArrowController>().rotate(-1);
+                }
+                else
+                {
+                    this.hurt(1);
+                }
             }
 
             if (this.position != this.lastPos)
@@ -122,8 +143,13 @@ public class PlayerController : MonoBehaviour
             {
                 this.camera.GetComponent<GameMainController>().Status = "stop";
                 StopAllCoroutines();
+                SceneManager.LoadScene(3);
             }
 
+            if (this.position.y >= 30)
+            {
+                SceneManager.LoadScene(4);
+            }
             this.lastPos = this.position;
         }
     }
@@ -156,7 +182,11 @@ public class PlayerController : MonoBehaviour
         //当人物触碰障碍时
         if (c.CompareTag("Obstruction"))
         {//障碍
-            this.hurt(1);
+            if(!this.damageLock){
+                this.damageLock = true;
+                this.hurt(1);
+            }
+            
         }else if (c.CompareTag("Recovery"))
         {//回复
             c.gameObject.SetActive(false);
@@ -169,6 +199,20 @@ public class PlayerController : MonoBehaviour
             
         }
     }
+
+    private void OnTriggerExit(Collider c)
+    {
+        this.damageLock = false;
+    }
+/*
+    public IEnumerator hit()
+    {
+        Vector2 lastpos = this.position;
+        while (true)
+        {
+            if()
+        }
+    }*/
 }
 /**
 class pos

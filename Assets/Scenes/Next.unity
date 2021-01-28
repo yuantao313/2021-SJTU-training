@@ -297,7 +297,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0e6e50b5ec8e77c44861b6b429a4b72a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1715410a1c15a664e98e91ede16c6624, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -447,7 +447,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: d3932e7db7ac53547a5ca7d97a3d09df, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 41bc36a39dacd244da1e4c50abbbd574, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -592,7 +592,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ea4a546007680c3479d9c02730a46402, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 27f9d3a1d723c6b419152ece051e89a2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -674,7 +674,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 3bdd636f12e79444f9d7ff517f8e112f, type: 3}
+    m_Font: {fileID: 12800000, guid: f9f5908b76d61e34b98c224aa3ae3a3b, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
