@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Start.unity
     guid: 7e34f6f1c36175c43a238fad1ba862dc
   - enabled: 1
-    path: Assets/Scenes/Next.unity
+    path: Assets/Scenes/Intro.unity
     guid: 0580122742838884f8fc3854af319e95
   - enabled: 1
     path: Assets/Scenes/MainScene.unity
@@ -21,12 +21,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Success.unity
     guid: 1b758a4ab5884824f902085c14363699
   - enabled: 1
-    path: Assets/Scenes/Method.unity
+    path: Assets/Scenes/Direction.unity
     guid: fabaa1b4003b4bf47be8cf69a9d6b564
-  - enabled: 1
-    path: Assets/Scenes/M2.unity
-    guid: 5124d15b9e5429a4eb908658cfd6ea13
-  - enabled: 1
-    path: Assets/Scenes/M3.unity
-    guid: 8a912d8aec6b17f45a561400faace200
   m_configObjects: {}
