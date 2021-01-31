@@ -5,7 +5,10 @@ using MyGame;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Animation = MyGame.Animation;
-
+ /// <summary>
+ /// StaticMapController加载、控制“并不下落”的障碍物。
+/// 也可以理解为控制所有动画型障碍物。
+ /// </summary>
 public class StaticMapController : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -45,9 +48,9 @@ public class StaticMapController : MonoBehaviour
     {
         foreach (var f in a.frame)
         {
-            _mapLoader.drawMatrix(a.startPos[0], a.startPos[1], 3, 3, f, _mapLoader.SkyMap, _mapLoader.ObstructionTile);
+            _mapLoader.drawMatrix(a.startPos[0], a.startPos[1],  f, _mapLoader.SkyMap, _mapLoader.ObstructionTile);
             yield return new WaitForSeconds(60 / bpm);
-            _mapLoader.drawMatrix(a.startPos[0], a.startPos[1], 3, 3, f, _mapLoader.SkyMap, null);
+            _mapLoader.drawMatrix(a.startPos[0], a.startPos[1],  f, _mapLoader.SkyMap, null);
         }
     }
 }

@@ -32,13 +32,13 @@ public class MapLoader : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {//之后改为从json加载
-        this.map = new Map(
+        map = new Map(
             );
         String m =
-            "{\"bpm\":70,\"width\":9,\"height\":20,\"groundblock\": [[0,0,2,0,0,0,2,0,0],[0,0,0,2,0,2,0,0,0],[0,0,0,0,2,0,0,0,0], [0,0,0,2,0,2,0,0,0],[0,2,0,0,0,0,0,2,0],[0,0,1,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0],[1,0,1,1,0,0,0,1,0], [1,0,0,1,0,0,0,1,1],[1,0,0,1,0,1,0,1,1],[0,0,1,0,0,1,0,0,1],[0,0,1,0,0,1,0,0,0],[0,0,1,0,1,0,0,1,0],[1,0,0,0,1,0,0,1,0],[1,1,0,0,1,0,0,1,0],[1,1,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0,0],[0,0,0,1,0,0,1,0,0],[0,0,0,1,0,0,1,0,0],[0,0,0,1,0,0,1,0,0]], \"animation\":[]}";
+            "{\"bpm\":70,\"groundblock\": [[0,0,2,0,0,0,2,0,0],[0,0,0,2,0,2,0,0,0],[0,0,0,0,2,0,0,0,0], [0,0,0,2,0,2,0,0,0],[0,2,0,0,0,0,0,2,0],[0,0,1,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0],[1,0,1,1,0,0,0,1,0], [1,0,0,1,0,0,0,1,1],[1,0,0,1,0,1,0,1,1],[0,0,1,0,0,1,0,0,1],[0,0,1,0,0,1,0,0,0],[0,0,1,0,1,0,0,1,0],[1,0,0,0,1,0,0,1,0],[1,1,0,0,1,0,0,1,0],[1,1,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0,0],[0,0,0,1,0,0,1,0,0],[0,0,0,1,0,0,1,0,0],[0,0,0,1,0,0,1,0,0]], \"animation\":[]}";
         map = JsonConvert.DeserializeObject<Map>(m);
         camera.GetComponent<GameMainController>().Bpm = map.bpm;
-        this.DynamicTiles = new TileBase[2] {this.ObstructionTile,RecoveryTile};
+        DynamicTiles = new TileBase[2] {ObstructionTile,RecoveryTile};
     }
 
     // Update is called once per frame
@@ -48,13 +48,13 @@ public class MapLoader : MonoBehaviour
 
     public void drawDynamicMap()
     {
-        drawVariableMatrix(0, 0, this.map.width, this.map.height, this.map.GroundBlock, this.GroundMap,
-            this.DynamicTiles);
+        drawVariableMatrix(0, 0, map.GroundBlock, GroundMap,
+            DynamicTiles);
     }
 
     public void drawStaticMap(List<List<int>> matrix)
     {
-        drawMatrix(0,0,9,5,matrix,SkyMap,ObstructionTile);
+        drawMatrix(0,0,matrix,SkyMap,ObstructionTile);
     }
 
     public void clearDynamicMap()
@@ -65,11 +65,11 @@ public class MapLoader : MonoBehaviour
     {
         SkyMap.ClearAllTiles();
     }
-    public void drawMatrix(int x, int y, int w, int h, List<List<int>> matrix,Tilemap target,TileBase source)
+    public void drawMatrix(int x, int y, List<List<int>> matrix,Tilemap target,TileBase source)
     {
-        for (int i = 0; i < w; i++)
+        for (int i = 0; i < matrix[0].Count; i++)
         {
-            for (int j = 0; j < h; j++)
+            for (int j = 0; j < matrix.Count; j++)
             {
                 if (matrix[j][i] != 0)//障碍物
                 {
@@ -78,11 +78,11 @@ public class MapLoader : MonoBehaviour
             }
         }
     }
-    public void drawVariableMatrix(int x, int y, int w, int h, List<List<int>> matrix,Tilemap target,TileBase[] source)
+    public void drawVariableMatrix(int x, int y, List<List<int>> matrix,Tilemap target,TileBase[] source)
     {
-        for (int i = 0; i < w; i++)
+        for (int i = 0; i < matrix[0].Count; i++)
         {
-            for (int j = 0; j < h; j++)
+            for (int j = 0; j < matrix.Count; j++)
             {
                 if (matrix[j][i] >=1)//障碍物
                 {
@@ -124,10 +124,6 @@ namespace MyGame
         public Animation()
         {
 
-        }
-        public int getLength()
-        {
-            return this.frame.Count;
         }
     }
 /*
