@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,12 +15,9 @@ public class PlayerController : MonoBehaviour
     private int health;
     private int maxHealth=20; 
     public Text performance;
-    public Text pointText;
-    
-    private int point;
-    
-    private Vector2 lastPos;
-    private Vector2 position;
+        
+    private Vector2Int lastPos;
+    private Vector2Int position;
     private AudioSource Sound;
     public AudioClip moveSound;
     public AudioClip hurtSound;
@@ -39,8 +38,8 @@ public class PlayerController : MonoBehaviour
         restTimer = 0;
         restTime = 60/camera.GetComponent<GameMainController>().Bpm;
         health = maxHealth;
-        lastPos = new Vector2(4, 0);
-        position = new Vector2(4, 0);
+        lastPos = new Vector2Int(4, 0);
+        position = new Vector2Int(4, 0);
        Sound = gameObject.GetComponent<AudioSource>();
     }
 
@@ -78,7 +77,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    this.hurt(1);
+                    hurt(1);
                 }
                 
             }
@@ -95,7 +94,7 @@ public class PlayerController : MonoBehaviour
 
             if (position != lastPos)
             {
-                transform.Translate((position - lastPos) * moveLength);
+                transform.Translate((Vector2)(position - lastPos) * moveLength);
                 float offset = Math.Abs(restTime - restTimer);
                 if (offset < 0.1 * restTime && offset >= 0)
                 {
@@ -165,9 +164,8 @@ public class PlayerController : MonoBehaviour
         //当人物触碰障碍时
         if (c.CompareTag("Obstruction"))
         {//障碍
-            
-                hurt(1);
-            
+
+            hurt(1);
             
         }else if (c.CompareTag("Recovery"))
         {//回复
@@ -175,13 +173,23 @@ public class PlayerController : MonoBehaviour
             health += 2;
         }else if (c.CompareTag("Teleportation"))
         {//传送
-            position=c.GetComponent<Teleportation>().EndPoint;
+            Vector2Int endPos = c.GetComponent<TeleportationController>().teleport(position);
+            transform.Translate((Vector2)(endPos - position)*0.8f);
+            position = endPos;
+            lastPos = endPos;
         }else if (c.CompareTag("Slider"))
         {//滑块
             
         }
     }
 
-  
+    public IEnumerator ifStayInBlock()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(restTime);
+
+        }
+    }
 
 }

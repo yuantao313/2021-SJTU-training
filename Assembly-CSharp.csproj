@@ -78,9 +78,10 @@
     <Compile Include="Assets\Scripts\Playing\GameMainController.cs" />
     <Compile Include="Assets\Scripts\Playing\MainCameraController.cs" />
     <Compile Include="Assets\Scripts\Playing\Map\DynamicMapController.cs" />
+    <Compile Include="Assets\Scripts\Playing\Map\LaserController.cs" />
     <Compile Include="Assets\Scripts\Playing\Map\MapLoader.cs" />
     <Compile Include="Assets\Scripts\Playing\Map\StaticMapController.cs" />
-    <Compile Include="Assets\Scripts\Playing\Map\Teleportation.cs" />
+    <Compile Include="Assets\Scripts\Playing\Map\TeleportationController.cs" />
     <Compile Include="Assets\Scripts\Playing\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Playing\Property.cs" />
     <Compile Include="Assets\Scripts\Playing\UI\HealthBarController.cs" />

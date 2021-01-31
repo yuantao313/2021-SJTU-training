@@ -15,14 +15,14 @@ public class StaticMapController : MonoBehaviour
     public GameObject camera;
     private int width = 9;
     private int height = 12;
-    private List<Animation> anima;
+    private List<Animation> myAnimation;
     private MapLoader _mapLoader;
     private float bpm;
     void Start()
     {
         bpm = camera.GetComponent<GameMainController>().Bpm;
         _mapLoader = GetComponentInParent<MapLoader>();
-        anima = GetComponentInParent<MapLoader>().Map.Animation;
+        myAnimation = _mapLoader.Map.Animation;
     }
 
     // Update is called once per frame
@@ -31,15 +31,14 @@ public class StaticMapController : MonoBehaviour
     }
 
 
-    public void checkAnimation(int t)
+    public void LoadAnimation(int t)
     {
-        print(anima);
-        foreach (var a in anima)
+        foreach (var a in myAnimation)
         {
             if (a.appearTime == t)
             {
                 StartCoroutine(drawAnimation(a));
-                anima.Remove(a);
+                myAnimation.Remove(a);
             }
         }
     }

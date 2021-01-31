@@ -46,7 +46,8 @@ public class GameMainController : MonoBehaviour
             {
                 timer++;//计时器+1
                 myMap.GetComponentInChildren<DynamicMapController>().Drop();
-                myMap.GetComponentInChildren<StaticMapController>().checkAnimation(timer);
+                myMap.GetComponentInChildren<StaticMapController>().LoadAnimation(timer);
+                myMap.GetComponentInChildren<LaserController>().LoadLaser(timer);
                 yield return new WaitForSeconds(60 / bpm);
 
             }
