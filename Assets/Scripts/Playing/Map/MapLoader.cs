@@ -7,12 +7,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using UnityEditor;
-using Random = UnityEngine.Random;
 using MyGame;
 using Animation = MyGame.Animation;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using UnityEngine.Assertions.Must;
+
 
 public class MapLoader : MonoBehaviour
 {
@@ -22,9 +20,7 @@ public class MapLoader : MonoBehaviour
     public Tilemap SkyMap;
     public Tilemap RecoveryMap;
     public Tilemap AlertMap;
-    private TileBase[] DynamicTiles;
-    public TileBase ObstructionTile;
-    public Tile RecoveryTile;
+    private List<TileBase> DynamicTiles;
     private Map map;
     private const int width = 9;
     private const int height = 12;
@@ -33,14 +29,16 @@ public class MapLoader : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {//之后改为从json加载
-        map = new Map(
-            );
-        String m =
-            "{\"bpm\":70,\"groundblock\": [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0],[1,0,1,1,0,0,0,1,0], [1,0,0,1,0,0,0,1,1],[1,0,0,1,0,1,0,1,1],[0,0,1,0,0,1,0,0,1],[0,0,1,0,0,1,0,0,0],[0,0,1,0,1,0,0,1,0],[1,0,0,0,1,0,0,1,0],[1,1,0,0,1,0,0,1,0],[1,1,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0,0],[0,0,0,1,0,0,1,0,0],[0,0,0,1,0,0,1,0,0],[0,0,0,1,0,0,1,0,0]], \"animation\":[],\"teleportation\":[{startPos:{x:0,y:0},endPos:{x:7,y:4}}],\"laser\":[{pos:3,side:0,appearTime:3}]}";
+    {
+        map = new Map();
+        String m = Resources.Load<TextAsset>("maps/1").text;
+        print(m);
         map = JsonConvert.DeserializeObject<Map>(m);
         camera.GetComponent<GameMainController>().Bpm = map.bpm;
-        DynamicTiles = new TileBase[2] { ObstructionTile, RecoveryTile };
+        DynamicTiles = new List<TileBase> { 
+            Resources.Load<TileBase>("tiles/flame"), 
+            Resources.Load<TileBase>("tiles/green")
+    };
     }
 
     // Update is called once per frame
@@ -50,20 +48,19 @@ public class MapLoader : MonoBehaviour
 
     public void drawDynamicMap()
     {
-        drawVariableMatrix(0, 0, map.GroundBlock, GroundMap,
-            DynamicTiles);
+        drawVariableMatrix(0, 0, map.GroundBlock, GroundMap);
     }
 
     public void drawStaticMap(List<List<int>> matrix)
     {
-        drawMatrix(0, 0, matrix, SkyMap, ObstructionTile);
+        drawMatrix(0, 0, matrix, SkyMap, DynamicTiles[0]);
     }
     public void drawTeleportation()
     {
         foreach (var t in map.Teleportation)
         {
-            TeleportationMap.SetTile((Vector3Int)t.startPos, RecoveryTile);
-            TeleportationMap.SetTile((Vector3Int)t.endPos, RecoveryTile);
+            TeleportationMap.SetTile((Vector3Int)t.startPos, DynamicTiles[1]);
+            TeleportationMap.SetTile((Vector3Int)t.endPos, DynamicTiles[1]);
         }
     }
 
@@ -77,23 +74,45 @@ public class MapLoader : MonoBehaviour
     }
     public void drawAlert(Vector2Int pos)
     {
-        AlertMap.SetTile((Vector3Int)pos, RecoveryTile);
+        AlertMap.SetTile((Vector3Int)pos, DynamicTiles[1]);
 
+    }
+    public void cleanAlert()
+    {
+        AlertMap.ClearAllTiles();
     }
     public void drawLine(int dir, int pos)
     {
         if (dir == 0)
         {
-            for (int i = 0; i < width; i++)
+            for (int i = 0; i < map.height; i++)
             {
-                SkyMap.SetTile(new Vector3Int(pos, i, 0), RecoveryTile);
+                SkyMap.SetTile(new Vector3Int(pos, i, 0), DynamicTiles[1]);
             }
         }
         else if (dir == 1)
         {
-            for (int i = 0; i < height; i++)
+            for (int i = 0; i < map.width; i++)
             {
-                SkyMap.SetTile(new Vector3Int(i, pos, 0), RecoveryTile);
+                SkyMap.SetTile(new Vector3Int(i, pos, 0), DynamicTiles[1]);
+
+            }
+        }
+    }
+    public void eraseLine(int dir, int pos)
+    {
+        if (dir == 0)
+        {
+            for (int i = 0; i < map.height; i++)
+            {
+                SkyMap.SetTile(new Vector3Int(pos, i, 0),null);
+            }
+        }
+        else if (dir == 1)
+        {
+            for (int i = 0; i < map.width; i++)
+            {
+                SkyMap.SetTile(new Vector3Int(i, pos, 0), null);
 
             }
         }
@@ -111,7 +130,7 @@ public class MapLoader : MonoBehaviour
             }
         }
     }
-    public void drawVariableMatrix(int x, int y, List<List<int>> matrix, Tilemap target, TileBase[] source)
+    public void drawVariableMatrix(int x, int y, List<List<int>> matrix, Tilemap target)
     {
         for (int i = 0; i < matrix[0].Count; i++)
         {
@@ -119,7 +138,7 @@ public class MapLoader : MonoBehaviour
             {
                 if (matrix[j][i] >= 1)//障碍物
                 {
-                    target.SetTile(new Vector3Int(x + i, y + j, 0), source[matrix[j][i] - 1]);
+                    target.SetTile(new Vector3Int(x + i, y + j, 0), DynamicTiles[matrix[j][i] - 1]);
                 }
             }
         }
@@ -134,6 +153,7 @@ namespace MyGame
      * │
      *─┼──────────>x轴
      */
+    //命名空间，存储map类及子类，构造函数为空，为了使用json序列化
     public class Map
     {
         public float bpm;
@@ -161,54 +181,6 @@ namespace MyGame
 
         }
     }
-    /*
-        class Flyin:Animation
-        {
-            public int length;//飞行物长度
-            public Vector2 direction;//飞行方向，向量
-
-            public Flyin(Vector2 startPos,):base()
-            {//构造函数，在这里生成frame
-
-            }
-        }*/
-    /*
-        class Point : Animation
-        {
-            public Vector2 direction;
-
-            public Point()
-            {
-                if(this.direction==Vector2.up) {
-                    this.frame[0] = new int[1][2] {new int[][]{0, 1}};
-                this.frame[1] = new int[1][2] {
-                    new int[]{1, 0}
-                };
-
-                ;}else if (this.direction == Vector2.down)
-                {
-                    this.frame[1] = new int[1, 2]
-                    {
-                        new int[]{0, 1}
-                    };
-                    this.frame[0] = new int[1, 2] {{1, 0}};
-                }else if (this.direction == Vector2.left)
-                {
-                    this.frame[0] = new int[2, 1]
-                    new int[]{
-                        new int[]{0}, new int[]{1}
-                    };
-                    this.frame[1] = new int[2, 1] {{1}, {0}};
-                }else if (this.direction == Vector2.right)
-                {
-                    this.frame[1] = new int[2, 1]
-                    {
-                        {0}, {1}
-                    };
-                    this.frame[0] = new int[2, 1] {{1}, {0}};
-                }
-            }
-        }*/
     public class Teleportation
     {
         public Vector2Int startPos;

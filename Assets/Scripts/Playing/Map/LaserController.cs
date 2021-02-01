@@ -38,29 +38,24 @@ public class LaserController : MonoBehaviour
         {
             _mapLoader.drawAlert(new Vector2Int(l.pos, 0));
 
-            _mapLoader.drawAlert(new Vector2Int(l.pos, 12));
+            _mapLoader.drawAlert(new Vector2Int(l.pos, _mapLoader.Map.height-1));
         }
         else if (l.side == 1)
         {
             _mapLoader.drawAlert(new Vector2Int(0, l.pos));
 
-            _mapLoader.drawAlert(new Vector2Int(8, l.pos));
+            _mapLoader.drawAlert(new Vector2Int(_mapLoader.Map.width-1, l.pos));
 
         }
 
         //这里判断一下方位，画出预警点
-        for (int t = 0; t < 3; t++)
-        {
-            yield return new WaitForSeconds(60 / bpm);//等他三秒
-        }
-        if (l.side  == 0)//vertical
-        {
-            _mapLoader.drawLine(0, l.pos);
-        }
-        else
-        {
-            //horizontal
-            _mapLoader.drawLine(1, l.pos);
-        }
+
+       yield return new WaitForSeconds(60 / bpm*3);//等他三秒
+      
+            _mapLoader.drawLine(l.side, l.pos);
+        
+        yield return new WaitForSeconds(60 / bpm * 3);
+        _mapLoader.eraseLine(l.side, l.pos);
+        _mapLoader.cleanAlert();
     }
 }

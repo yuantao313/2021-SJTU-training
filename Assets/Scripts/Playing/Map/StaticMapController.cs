@@ -47,7 +47,7 @@ public class StaticMapController : MonoBehaviour
     {
         foreach (var f in a.frame)
         {
-            _mapLoader.drawMatrix(a.startPos[0], a.startPos[1],  f, _mapLoader.SkyMap, _mapLoader.ObstructionTile);
+            _mapLoader.drawVariableMatrix(a.startPos[0], a.startPos[1],  f, _mapLoader.SkyMap);
             yield return new WaitForSeconds(60 / bpm);
             _mapLoader.drawMatrix(a.startPos[0], a.startPos[1],  f, _mapLoader.SkyMap, null);
         }

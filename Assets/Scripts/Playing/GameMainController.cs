@@ -40,6 +40,7 @@ public class GameMainController : MonoBehaviour
 
     public IEnumerator Loop()
     {
+        yield return new WaitForSeconds(1);
         while (true)
         {
             if (this.status == "running")
