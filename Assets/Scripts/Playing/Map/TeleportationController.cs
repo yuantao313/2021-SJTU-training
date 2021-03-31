@@ -1,15 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using MyGame;
 public class TeleportationController : MonoBehaviour
 {
     private List<Teleportation> points;
     // Start is called before the first frame update
     void Start()
     {
-        points = GetComponentInParent<MapLoader>().Map.Teleportation;
-        GetComponentInParent<MapLoader>().drawTeleportation();
     }
 
     // Update is called once per frame

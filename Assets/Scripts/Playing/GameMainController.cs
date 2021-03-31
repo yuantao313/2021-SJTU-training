@@ -7,53 +7,44 @@ using UnityEngine.UI;
 public class GameMainController : MonoBehaviour
 {
     // Start is called before the first frame update
-    private string status;
-    private float bpm;
+    public string Status;
+    public float Bpm;
     public GameObject myMap;
-    private int timer;
-    public float Bpm
-    {
-        get => bpm;
-        set => bpm = value;
-    }
-    public string Status
-    {
-        get => status;
-        set => status = value;
-    }
+    public int Timer;
+    
 
     void Start()
     {
-        timer = 0;
-        this.status = "running";
+        Timer = 0;
+        Status = "running";
+        Bpm = myMap.GetComponent<MapLoader>().MyMap.Bpm;
         StartCoroutine(Loop());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (this.status!="running") //若因外界条件被告知游戏结束
+        if (Status == "stop")
         {
             StopAllCoroutines();
         }
     }
 
-    public IEnumerator Loop()
+    private IEnumerator Loop()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(60/Bpm);
         while (true)
         {
-            if (this.status == "running")
+            if (Status == "running")
             {
-                timer++;//计时器+1
-                myMap.GetComponentInChildren<DynamicMapController>().Drop();
-                myMap.GetComponentInChildren<StaticMapController>().LoadAnimation(timer);
-                myMap.GetComponentInChildren<LaserController>().LoadLaser(timer);
-                yield return new WaitForSeconds(60 / bpm);
+                Timer++;//计时器+1
+                myMap.GetComponentInChildren<GroundMapController>().Drop();
+                myMap.GetComponentInChildren<MapLoader>().LoadSkyBlock(Timer);
+                yield return new WaitForSeconds(60 / Bpm);
+            }else if (Status == "pause")
+            {
 
             }
-            //drop     
         }
     }
-
 }
